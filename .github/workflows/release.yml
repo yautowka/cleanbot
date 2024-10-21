@@ -24,4 +24,4 @@ jobs:
         run: |
           git clone https://github.com/krille-chan/fluffychat.git -b main
           cd fluffychat
-          echo ls
+          ls

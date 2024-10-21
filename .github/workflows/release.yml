@@ -1,9 +1,6 @@
 name: test build
 
-on:
-  push:
-    tags:
-      - "v*.*.*"
+on: push
 
 jobs:
   build_linux:
@@ -27,7 +24,13 @@ jobs:
           flutter pub get
           flutter build linux --release --target-platform linux-x64
           tar -czf fluffychat-linux-x64.tar.gz -C build/linux/x64/release/bundle/ .
+      
+      - name: Generate release tag
+        id: tag
+        run: |
+            echo "::set-output name=release_tag::UserBuild_$(date +"%Y.%m.%d_%H-%M")"
       - name: Upload to release
         uses: softprops/action-gh-release@v2
         with:
           files: fluffychat/fluffychat-linux-x64.tar.gz
+          tag_name: ${{ steps.tag.outputs.release_tag }}

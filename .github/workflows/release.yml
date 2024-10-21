@@ -16,3 +16,12 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+  build_linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare fluffychat
+        run: |
+          git clone https://github.com/krille-chan/fluffychat.git -b main
+          cd fluffychat
+          echo ls

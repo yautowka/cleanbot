@@ -19,7 +19,7 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
-      - run:|
+      - run:  |
           cd fluffychat
           flutter pub get
           flutter build linux --release --target-platform linux-x64

@@ -1,6 +1,6 @@
 name: test build
 
-on: workflow_dispatch
+on: push
 
 jobs:
   build:
@@ -20,12 +20,12 @@ jobs:
   build_linux:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Prepare fluffychat
         run: |
           git clone https://github.com/krille-chan/fluffychat.git -b main
           cd fluffychat
           ls
-      - uses: actions/checkout@v4
       - run: cat .github/workflows/versions.env >> $GITHUB_ENV
       - uses: subosito/flutter-action@v2
         with:

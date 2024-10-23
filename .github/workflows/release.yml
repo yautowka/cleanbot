@@ -18,3 +18,5 @@ jobs:
           gh variable list
           gh variable set LAST_FLUFFYCHAT_COMMIT --body "Set from workflow"
           gh variable list
+          env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

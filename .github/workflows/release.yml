@@ -7,11 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install curl clang cmake ninja-build pkg-config libgtk-3-dev libblkid-dev liblzma-dev libjsoncpp-dev cmake-data libsecret-1-dev libsecret-1-0 librhash0 libssl-dev -y
-      - name: Prepare fluffychat
-        run: |
-          git clone https://github.com/krille-chan/fluffychat.git -b main
-          cd fluffychat/.github/workflows/
+        with:
+          repository: krille-chan/fluffychat
+      - run: |
           ls
-      - uses: ./fluffychat/.github/workflows/release.yaml

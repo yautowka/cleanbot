@@ -12,4 +12,6 @@ jobs:
       - name: Prepare fluffychat
         run: |
           git clone https://github.com/krille-chan/fluffychat.git -b main
+          cd fluffychat/.github/workflows/
+          ls
       - uses: ./fluffychat/.github/workflows/release.yaml

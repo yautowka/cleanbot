@@ -12,4 +12,4 @@ jobs:
         with:
           repository: krille-chan/fluffychat
           path: fluffychat
-      - uses: ./fluffychat/.github/workflows/release.yaml
+      - uses: ./fluffychat/.github/workflows/main_deploy.yaml

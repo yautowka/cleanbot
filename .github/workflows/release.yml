@@ -13,8 +13,8 @@ jobs:
           repository: krille-chan/fluffychat
           path: fluffychat
       - run: |
-          cd fluffychat
-          cat .github/workflows/versions.env >> $GITHUB_ENV
+          #cd fluffychat
+          #cat .github/workflows/versions.env >> $GITHUB_ENV
           gh variable list
           gh variable set LAST_FLUFFYCHAT_COMMIT --body "Set from workflow"
           gh variable list

@@ -18,5 +18,6 @@ jobs:
           #cd fluffychat
           #cat .github/workflows/versions.env >> $GITHUB_ENV
           gh variable list
-          gh variable set LAST_FLUFFYCHAT_COMMIT --body "Set from workflow"
+          relaese = gh release view -R krille-chan/fluffychat --json name
+          gh variable set LAST_FLUFFYCHAT_RELEASE --body $relaese
           gh variable list

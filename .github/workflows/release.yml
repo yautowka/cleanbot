@@ -38,6 +38,6 @@ jobs:
             #cat .github/workflows/versions.env >> $GITHUB_ENV
             #gh variable list
             #release_name=$(gh release view -R krille-chan/fluffychat --json name -q .name)
-            gh variable set LAST_FLUFFYCHAT_RELEASE --body "$steps.check_release.outputs.new_release"
-            gh variable list
-            vars.LAST_FLUFFYCHAT_RELEASE=123
+            gh variable set LAST_FLUFFYCHAT_RELEASE --body "${{ steps.check_release.outputs.new_release }} "
+            #gh variable list
+            #vars.LAST_FLUFFYCHAT_RELEASE=123

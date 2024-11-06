@@ -8,7 +8,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install libwebkitgtk curl clang cmake ninja-build pkg-config libgtk-3-dev libblkid-dev liblzma-dev libjsoncpp-dev cmake-data libsecret-1-dev libsecret-1-0 librhash0 libssl-dev -y
+        run: |
+          sudo apt-get update && sudo apt-get install curl clang cmake ninja-build pkg-config libgtk-3-dev libblkid-dev liblzma-dev libjsoncpp-dev cmake-data libsecret-1-dev libsecret-1-0 librhash0 libssl-dev -y
+          sudo apt-get -y install libwebkit2gtk-4.0-37
       - name: Prepare fluffychat
         run: |
           git clone https://github.com/krille-chan/fluffychat.git -b main

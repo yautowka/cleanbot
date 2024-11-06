@@ -38,7 +38,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          name: ${{ steps.tag.outputs.release_tag }}
-          release_name: Release ${{ steps.tag.outputs.release_tag }}
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          name: Release ${{ steps.tag.outputs.release_tag }}
           files: |
             fluffychat/fluffychat-linux-x64.tar.gz

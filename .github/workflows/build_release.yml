@@ -26,7 +26,9 @@ jobs:
           cd fluffychat
           rm -rf fonts/NotoEmoji
           yq -i 'del( .flutter.fonts[] | select(.family == "NotoEmoji") )' pubspec.yaml
-      - run: flutter pub get
+      - run: |
+          cd fluffychat
+          flutter pub get
       - name: Prepare web
         run: ./fluffychat/scripts/prepare-web.sh
       - name: Build Release Web
@@ -55,7 +57,7 @@ jobs:
       - name: Prepare fluffychat
         run: |
           git clone https://github.com/krille-chan/fluffychat.git -b main
-      - run: cat .github/workflows/versions.env >> $GITHUB_ENV
+      - run: cat fluffychat/.github/workflows/versions.env >> $GITHUB_ENV
       - uses: actions/setup-java@v4
         with:
           java-version: ${{ env.JAVA_VERSION }}
@@ -68,10 +70,13 @@ jobs:
         run: git apply ./fluffychat/scripts/enable-android-google-services.patch
       - name: Remove Emoji Font
         run: |
-          rm -rf fluffychat/fonts/NotoEmoji
-          yq -i 'del( .flutter.fonts[] | select(.family == "NotoEmoji") )' fluffychat/pubspec.yaml
-      - run: flutter pub get
-      - run: flutter build apk --release
+          cd fluffychat
+          rm -rf fonts/NotoEmoji
+          yq -i 'del( .flutter.fonts[] | select(.family == "NotoEmoji") )' pubspec.yaml
+      - run: |
+          cd fluffychat
+          flutter pub get
+          flutter build apk --release
       - name: Upload to release
         uses: actions/upload-release-asset@v1
         env:

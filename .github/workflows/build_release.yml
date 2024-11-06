@@ -30,7 +30,9 @@ jobs:
           cd fluffychat
           flutter pub get
       - name: Prepare web
-        run: ./fluffychat/scripts/prepare-web.sh
+        run: |
+          cd fluffychat
+          ./scripts/prepare-web.sh
       - name: Build Release Web
         run: |
           cd fluffychat
@@ -67,7 +69,9 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
       - name: Apply Google Services Patch
-        run: git apply ./fluffychat/scripts/enable-android-google-services.patch
+        run: |
+          cd fluffychat
+          git apply ./scripts/enable-android-google-services.patch
       - name: Remove Emoji Font
         run: |
           cd fluffychat

@@ -12,20 +12,20 @@ jobs:
       - name: Prepare fluffychat
         run: |
           git clone https://github.com/krille-chan/fluffychat.git -b main
-      - name: build
-		run: |
+      - name: Prepare fluffychat
+        run: |
           cd fluffychat
           cat .github/workflows/versions.env >> $GITHUB_ENV
-		  git clone --branch ${{ env.FLUTTER_VERSION }} https://github.com/flutter/flutter.git
+          git clone --branch ${{ env.FLUTTER_VERSION }} https://github.com/flutter/flutter.git
           ./flutter/bin/flutter doctor
           #flutter pub get
           #flutter build linux --release --target-platform linux-x64
-	  - run: ./fluffychat/flutter/bin/flutter pub get
+      - run: ./fluffychat/flutter/bin/flutter pub get
       - run: ./fluffychat/flutter/bin/flutter build linux --target-platform linux-x64
       - name: archive
-		run: |
-		cd fluffychat
-		tar -czf fluffychat-linux-x64.tar.gz -C build/linux/x64/release/bundle/ .
+        run: |
+          cd fluffychat
+          tar -czf fluffychat-linux-x64.tar.gz -C build/linux/x64/release/bundle/ .
       
       - name: Generate release tag
         id: tag

@@ -1,0 +1,51 @@
+name: build release
+
+on: [workflow_call, workflow_dispatch]
+
+jobs:
+  build_linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install curl clang cmake ninja-build pkg-config libgtk-3-dev libblkid-dev liblzma-dev libjsoncpp-dev cmake-data libsecret-1-dev libsecret-1-0 librhash0 libssl-dev -y
+      - name: Prepare fluffychat
+        run: |
+          git clone https://github.com/krille-chan/fluffychat.git -b main
+      - run: |
+          cd fluffychat
+          cat .github/workflows/versions.env >> $GITHUB_ENV
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - run:  |
+          cd fluffychat
+          flutter pub get
+          flutter build linux --release --target-platform linux-x64
+          tar -czf fluffychat-linux-x64.tar.gz -C build/linux/x64/release/bundle/ .
+      
+      - name: Generate release tag
+        id: tag
+        run: |
+            echo "::set-output name=release_tag::UserBuild_$(date +"%Y.%m.%d_%H-%M")"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          release_name: Release ${{ steps.tag.outputs.release_tag }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: fluffychat/fluffychat-linux-x64.tar.gz
+          asset_name: fluffychat-linux-x64.tar.gz
+          asset_content_type: application/gzip

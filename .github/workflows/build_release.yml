@@ -80,7 +80,7 @@ jobs:
       - run: |
           cd fluffychat
           flutter pub get
-          flutter build apk --release
+          flutter build apk 
       - name: Upload to release
         uses: actions/upload-release-asset@v1
         env:

@@ -74,6 +74,7 @@ jobs:
           git apply ./scripts/enable-android-google-services.patch
       - name: Remove Emoji Font
         run: |
+          chmod +x android_release.sh
           cd fluffychat
           rm -rf fonts/NotoEmoji
           yq -i 'del( .flutter.fonts[] | select(.family == "NotoEmoji") )' pubspec.yaml

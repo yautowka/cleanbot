@@ -81,7 +81,7 @@ jobs:
         run: |
           cat SdkVersion.txt >> fluffychat/android/build.gradle
       - name: Build
-      - run: |
+        run: |
           cd fluffychat
           flutter pub get
           flutter build apk --release

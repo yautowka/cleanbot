@@ -82,7 +82,7 @@ jobs:
           FDROID_KEY: test
           FDROID_KEY_PASS: test
           PLAYSTORE_DEPLOY_KEY: test
-        run: ./fluffychat/scripts/prepare-android-release.sh
+        run: ./android_release.sh
       - name: Prepare Android Release Build
         run: |
           cat fluffychat/android/build.gradle

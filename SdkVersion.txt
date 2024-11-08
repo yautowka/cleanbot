@@ -1,3 +1,4 @@
+
 subprojects {
     afterEvaluate { project ->
         if (project.plugins.hasPlugin("com.android.application") ||

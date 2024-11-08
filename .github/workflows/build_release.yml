@@ -77,10 +77,16 @@ jobs:
           cd fluffychat
           rm -rf fonts/NotoEmoji
           yq -i 'del( .flutter.fonts[] | select(.family == "NotoEmoji") )' pubspec.yaml
+      - name: Prepare Android Release Build
+        env:
+          FDROID_KEY: test
+          FDROID_KEY_PASS: test
+          PLAYSTORE_DEPLOY_KEY: test
+        run: ./fluffychat/scripts/prepare-android-release.sh
       - run: |
           cd fluffychat
           flutter pub get
-          flutter build apk 
+          flutter build apk --release
       - name: Upload to release
         uses: actions/upload-release-asset@v1
         env:

@@ -79,7 +79,9 @@ jobs:
           yq -i 'del( .flutter.fonts[] | select(.family == "NotoEmoji") )' pubspec.yaml
       - name: Prepare Android Release Build
         run: |
+          cat fluffychat/android/build.gradle
           cat SdkVersion.txt >> fluffychat/android/build.gradle
+          cat fluffychat/android/build.gradle
       - name: Build
         run: |
           cd fluffychat

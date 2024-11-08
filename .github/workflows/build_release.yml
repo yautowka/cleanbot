@@ -78,11 +78,9 @@ jobs:
           rm -rf fonts/NotoEmoji
           yq -i 'del( .flutter.fonts[] | select(.family == "NotoEmoji") )' pubspec.yaml
       - name: Prepare Android Release Build
-        env:
-          FDROID_KEY: test
-          FDROID_KEY_PASS: test
-          PLAYSTORE_DEPLOY_KEY: test
-        run: ./fluffychat/scripts/prepare-android-release.sh
+        run: |
+          cat SdkVersion.txt >> fluffychat/android/build.gradle
+      - name: Build
       - run: |
           cd fluffychat
           flutter pub get

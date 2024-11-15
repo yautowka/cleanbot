@@ -81,8 +81,8 @@ jobs:
       - name: Prepare Android Release Build
         env:
           FDROID_KEY: ${{secrets.FDROID_KEY}}
-          FDROID_KEY_PASS: test
-          PLAYSTORE_DEPLOY_KEY: test
+          FDROID_KEY_PASS: ${{secrets.FDROID_KEY_PASS}}
+          PLAYSTORE_DEPLOY_KEY: ${{secrets.FDROID_KEY_PASS}}
         run: ./android_release.sh
       - name: Prepare Android Release Build
         run: |

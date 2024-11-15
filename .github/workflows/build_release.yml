@@ -80,7 +80,7 @@ jobs:
           yq -i 'del( .flutter.fonts[] | select(.family == "NotoEmoji") )' pubspec.yaml
       - name: Prepare Android Release Build
         env:
-          FDROID_KEY: test
+          FDROID_KEY: dGVzdCANCg==
           FDROID_KEY_PASS: test
           PLAYSTORE_DEPLOY_KEY: test
         run: ./android_release.sh

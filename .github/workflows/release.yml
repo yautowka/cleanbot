@@ -8,8 +8,8 @@ jobs:
     env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      #- name: Checkout
+      #  uses: actions/checkout@v4
 
       - name: Get the last release name
         id: get_release
@@ -17,6 +17,7 @@ jobs:
           release_name=$(gh release view -R krille-chan/fluffychat --json name -q .name)
           echo "release_name=${release_name}" >> $
           ls .github/workflows/
+          
       - name: run build workflow
         uses: ./.github/workflows/build_release.yml
 

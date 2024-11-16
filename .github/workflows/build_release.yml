@@ -7,6 +7,28 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    outputs:
+      release_link: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate release tag
+        id: tag
+        run: |
+            release_name=fluffychat $(gh release view -R krille-chan/fluffychat --json name -q .name)
+            echo "::set-output name=release_tag::UserBuild_$(date +"%Y.%m.%d_%H-%M")"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          release_name: Release ${{ steps.tag.outputs.release_tag }}
+          draft: false
+          prerelease: false
+
   build_web:
     runs-on: ubuntu-latest
     steps:
@@ -41,14 +63,16 @@ jobs:
         run: |
           cd fluffychat
           tar -czf fluffychat-web.tar.gz build/web/
-      - name: Upload to release
+
+      - name: Upload Release Asset
+        id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PAGES_DEPLOY_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: fluffychat/fluffychat-web.tar.gz
-          asset_name: fluffychat-web.tar.gz
+          upload_url: ${{ needs.create_release.outputs.release_link }} 
+          asset_path: fluffychat/fluffychat-linux-x64.tar.gz
+          asset_name: fluffychat-linux-x64.tar.gz
           asset_content_type: application/gzip
 
 
@@ -78,13 +102,15 @@ jobs:
           cd fluffychat
           rm -rf fonts/NotoEmoji
           yq -i 'del( .flutter.fonts[] | select(.family == "NotoEmoji") )' pubspec.yaml
-      - name: Prepare Android Release Build
+
+      - name: Prepare Android Release Build 1
         env:
           FDROID_KEY: ${{secrets.FDROID_KEY}}
           FDROID_KEY_PASS: ${{secrets.FDROID_KEY_PASS}}
           PLAYSTORE_DEPLOY_KEY: ${{secrets.FDROID_KEY_PASS}}
         run: ./android_release.sh
-      - name: Prepare Android Release Build
+
+      - name: Prepare Android Release Build 2
         run: |
           cat fluffychat/android/build.gradle
           ls fluffychat/android/
@@ -94,20 +120,25 @@ jobs:
           mv fluffychat/android/temp.gradle fluffychat/android/build.gradle
           #cat SdkVersion.txt >> fluffychat/android/build.gradle
           cat fluffychat/android/build.gradle
+
       - name: Build
         run: |
           cd fluffychat
           flutter pub get
           flutter build apk --release
-      - name: Upload to release
+      
+
+      - name: Upload Release Asset
+        id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PAGES_DEPLOY_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
+          upload_url: ${{ needs.create_release.outputs.release_link }} 
           asset_path: fluffychat/build/app/outputs/apk/release/app-release.apk
           asset_name: fluffychat.apk
           asset_content_type: application/vnd.android.package-archive
+      
 
   build_linux:
     runs-on: ubuntu-latest
@@ -121,7 +152,8 @@ jobs:
       - name: Prepare fluffychat
         run: |
           git clone https://github.com/krille-chan/fluffychat.git -b main
-      - run: |
+      - name: import env
+        run: |
           cd fluffychat
           cat .github/workflows/versions.env >> $GITHUB_ENV
           
@@ -135,16 +167,14 @@ jobs:
           flutter pub get
           flutter build linux --release --target-platform linux-x64
           tar -czf fluffychat-linux-x64.tar.gz -C build/linux/x64/release/bundle/ .
-      
-      - name: Generate release tag
-        id: tag
-        run: |
-            echo "::set-output name=release_tag::UserBuild_$(date +"%Y.%m.%d_%H-%M")"
-            
-      - name: Release
-        uses: softprops/action-gh-release@v2
+
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.tag.outputs.release_tag }}
-          name: Release ${{ steps.tag.outputs.release_tag }}
-          files: |
-            fluffychat/fluffychat-linux-x64.tar.gz
+          upload_url: ${{ needs.create_release.outputs.release_link }}     
+          asset_path: fluffychat/fluffychat-linux-x64.tar.gz
+          asset_name: fluffychat-linux-x64.tar.gz
+          asset_content_type: application/gzip

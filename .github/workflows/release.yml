@@ -16,7 +16,7 @@ jobs:
         run: |
           release_name=$(gh release view -R krille-chan/fluffychat --json name -q .name)
           echo "release_name=${release_name}" >> $
-          ls .github/workflows/
+          #ls .github/workflows/
           
       - name: run build workflow
         uses: ./.github/workflows/build_release.yml

@@ -27,7 +27,7 @@ jobs:
         run: |
           if [ "${{ vars.LAST_FLUFFYCHAT_RELEASE }}" == "${{ env.release_name }}" ]; then
             echo "Release has not changed. Exiting."
-            exit 0
+            exit 1
           else
             echo "Release has changed."
             echo "new_release=${{ env.release_name }}" >> "$GITHUB_OUTPUT"

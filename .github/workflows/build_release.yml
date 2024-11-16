@@ -18,7 +18,7 @@ jobs:
       - name: Generate release tag
         id: tag
         run: |
-            release_tag="fluffychat $(gh release view -R krille-chan/fluffychat --json name -q .name)"
+            release_tag="$(gh release view -R krille-chan/fluffychat --json name -q .name)"
             #echo "::set-output name=release_tag::$(release_name)"
             echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
       - name: Create Release
@@ -27,8 +27,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.tag.outputs.release_tag }}
-          release_name: Release ${{ steps.tag.outputs.release_tag }}
+          tag_name: fluffychat_${{ steps.tag.outputs.release_tag }}
+          release_name: Release fluffychat ${{ steps.tag.outputs.release_tag }}
           draft: false
           prerelease: false
 

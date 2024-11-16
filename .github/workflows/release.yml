@@ -10,13 +10,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      #- uses: actions/checkout@v4
 
       - name: Get the last release name
         id: get_release
         run: |
           release_name=$(gh release view -R krille-chan/fluffychat --json name -q .name)
-          echo "release_name=${release_name}" >> $GITHUB_ENV
+          echo "release_name=${release_name}" >> $
+          ls .github/workflows/
+      - name: run build workflow
+        uses: ./.github/workflows/build_release.yml
 
       - name: Check if release has changed
         id: check_release
@@ -40,5 +42,3 @@ jobs:
             gh variable set LAST_FLUFFYCHAT_RELEASE --body "${{ steps.check_release.outputs.new_release }}"
             #gh variable list
             #vars.LAST_FLUFFYCHAT_RELEASE=123
-      - name: run build workflow
-        uses: ./.github/workflows/build_release.yml

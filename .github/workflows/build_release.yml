@@ -20,7 +20,7 @@ jobs:
         run: |
             release_tag="fluffychat $(gh release view -R krille-chan/fluffychat --json name -q .name)"
             #echo "::set-output name=release_tag::$(release_name)"
-            echo "release_tag=$(env.release_tag)" >> "$GITHUB_OUTPUT"
+            echo "release_tag=$(release_tag)" >> "$GITHUB_OUTPUT"
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1

@@ -18,7 +18,7 @@ jobs:
           echo "release_name=${release_name}" >> $
           ls .github/workflows/
       - name: run build workflow
-        uses: yautowka/cleanbot/.github/workflows/build_release.yml@main
+        uses: ./.github/workflows/build_release.yml
 
       - name: Check if release has changed
         id: check_release

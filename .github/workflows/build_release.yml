@@ -4,8 +4,8 @@ on:
   schedule:
     # Every tuesday at 12 am UTC, aka 5 pm pacific time
     - cron: '0 0 * * 2'
-  workflow_call:
-  
+  workflow_dispath:
+
 concurrency:
   group: release_workflow
   cancel-in-progress: true

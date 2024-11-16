@@ -9,6 +9,8 @@ concurrency:
 jobs:
   create_release:
     runs-on: ubuntu-latest
+    env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
     outputs:
       release_link: ${{ steps.create_release.outputs.upload_url }}
     steps:
@@ -22,7 +24,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.tag.outputs.release_tag }}
           release_name: Release ${{ steps.tag.outputs.release_tag }}

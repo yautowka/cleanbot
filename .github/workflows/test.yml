@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   build_windows:
-    runs-on: windows-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       
@@ -34,5 +34,6 @@ jobs:
       - run:  |
           cd fluffychat
           flutter pub get
-          flutter build windows --release
+          flutter build macos --release
           #tar -czf fluffychat-linux-x64.tar.gz -C build/linux/x64/release/bundle/ .
+          #build\windows\x64\runner\Release\fluffychat.exe

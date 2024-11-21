@@ -33,6 +33,7 @@ jobs:
           
       - run:  |
           cd fluffychat
+          pod repo update
           flutter pub get
           flutter build macos --release
           #tar -czf fluffychat-linux-x64.tar.gz -C build/linux/x64/release/bundle/ .

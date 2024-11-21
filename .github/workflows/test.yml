@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build_macos:
+  build_ios:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,9 +34,5 @@ jobs:
       - run:  |
           cd fluffychat
           ./scripts/prepare-macos.sh
-          ./scripts/build-macos.sh
-          #pod repo update
-          #flutter pub get
-          #flutter build macos --release
-          #tar -czf fluffychat-linux-x64.tar.gz -C build/linux/x64/release/bundle/ .
-          #build\windows\x64\runner\Release\fluffychat.exe
+          ./scripts/build-ios.sh
+          #build/macos/Build/Products/Release/FluffyChat.app

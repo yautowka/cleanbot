@@ -36,4 +36,4 @@ jobs:
           ./scripts/prepare-macos.sh
           ./scripts/build-macos.sh
           #find . -name "*.app"
-          ls build/**
+          ls build/** -la

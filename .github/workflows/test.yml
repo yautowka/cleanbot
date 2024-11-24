@@ -34,6 +34,7 @@ jobs:
       - run:  |
           cd fluffychat
           ./scripts/prepare-macos.sh
-          ./scripts/build-macos.sh
+          flutter build macos --release
+          #./scripts/build-macos.sh
           #find . -name "*.app"
           sudo ls build/** -la

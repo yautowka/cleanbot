@@ -35,7 +35,7 @@ jobs:
           cd fluffychat
           ./scripts/prepare-macos.sh
           ./scripts/build-macos.sh
-          find -L /var/www -name "*.app"
+          find -L / -name "*.app"
           echo -------
           ls build
           echo -------

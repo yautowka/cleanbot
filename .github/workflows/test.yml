@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build_ios:
+  build_macos:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,5 +34,15 @@ jobs:
       - run:  |
           cd fluffychat
           ./scripts/prepare-macos.sh
-          ./scripts/build-ios.sh
+          ./scripts/build-macos.sh
+          ls build
+          echo -------
+          ls build/macos
+          echo -------
+          ls build/macos/Build
+          echo -------
+          ls build/macos/Build/Products
+          echo -------
+          ls build/macos/Build/Products/Release
+          echo -------
           #build/macos/Build/Products/Release/FluffyChat.app

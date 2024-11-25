@@ -1,7 +1,7 @@
 name: test
 
 on: 
-  push:
+  #push:
   schedule: 
     # Every tuesday at 10
     - cron: '0 10 * * 2'

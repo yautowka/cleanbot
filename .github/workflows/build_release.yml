@@ -288,6 +288,7 @@ jobs:
           
       - run:  |
           cd fluffychat
+          pod repo update
           ./scripts/prepare-macos.sh
           ./scripts/build-macos.sh
           #build/macos/Build/Products/Release/FluffyChat.app
